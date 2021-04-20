@@ -363,9 +363,7 @@ jobs:
           echo "::set-output name=report_description::${OUTPUT}"
 
           # TODO remove the fake data later
-          OUTPUT="$OUTPUT | Configuration | Intent Classification Micro F1 | Entity Recognition Micro F1 | Response Selection Micro F1 |
-          |---------------|-----------------|-----------------|-------------------|
-          | `BERT + DIET(bow) + ResponseSelector(bow)`<br> test: `1m30s`, train: `4m16s`, total: `5m45s`|0.7942 (0.01)|0.7529 (0.00)|0.5563 (-0.00)|\n test: `2m46s`, train: `5m5s`, total: `7m51s`|0.8727 (0.00)|0.9113 (0.00)|0.8826 (-0.05)| | `Sparse + DIET(bow) + ResponseSelector(bow)`"
+          OUTPUT='"$OUTPUT | Configuration | Intent Classification Micro F1 | Entity Recognition Micro F1 | Response Selection Micro F1 | |---------------|-----------------|-----------------|-------------------| | `BERT + DIET(bow) + ResponseSelector(bow)`<br> test: `1m30s`, train: `4m16s`, total: `5m45s`|0.7942 (0.01)|0.7529 (0.00)|0.5563 (-0.00)|\n test: `2m46s`, train: `5m5s`, total: `7m51s`|0.8727 (0.00)|0.9113 (0.00)|0.8826 (-0.05)| | `Sparse + DIET(bow) + ResponseSelector(bow)`"'
 
           # Match all negatives in brackets smaller than -0.05
           # Alert performance drop if found any
