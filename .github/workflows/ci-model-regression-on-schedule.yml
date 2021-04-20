@@ -5,6 +5,7 @@ on:
   schedule:
     # Run once a week
     - cron:  '1 23 * * */7'
+  pull_request: # TODO remove later
 
 env:
   GKE_ZONE: us-central1
@@ -361,12 +362,14 @@ jobs:
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"
           echo "::set-output name=report_description::${OUTPUT}"
 
-          # Remove all (-0.00) from OUTPUT.
-          # We don't want to count (-0.00) as a performance drop
-          OUTPUT=${OUTPUT//(-0.00)/}
+          # TODO remove the fake data later
+          OUTPUT="$OUTPUT | Configuration | Intent Classification Micro F1 | Entity Recognition Micro F1 | Response Selection Micro F1 |
+          |---------------|-----------------|-----------------|-------------------|
+          | `BERT + DIET(bow) + ResponseSelector(bow)`<br> test: `1m30s`, train: `4m16s`, total: `5m45s`|0.7942 (0.01)|0.7529 (0.00)|0.5563 (-0.00)|\n test: `2m46s`, train: `5m5s`, total: `7m51s`|0.8727 (0.00)|0.9113 (0.00)|0.8826 (-0.05)| | `Sparse + DIET(bow) + ResponseSelector(bow)`"
 
-          # Any (negatives) found means there is a performance drops.
-          if [[ "${OUTPUT}" =~ \(-[0-9.]+[6-9]$\) ]]; then
+          # Match all negatives in brackets smaller than -0.05
+          # Alert performance drop if found any
+          if [[ "${OUTPUT}" =~ '(-[0-9.]+(0[6-9]|[1-9][0-9]))' ]]; then
             echo "Some test performance scores decreased."
             echo "::set-output name=is_dropped::true"
           else
