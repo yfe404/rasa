@@ -366,7 +366,7 @@ jobs:
           OUTPUT=${OUTPUT//(-0.00)/}
 
           # Any (negatives) found means there is a performance drops.
-          if [[ "${OUTPUT}" =~ \(-[0-9.]+\) ]]; then
+          if [[ "${OUTPUT}" =~ \(-[0-9.]+[6-9]$\) ]]; then
             echo "Some test performance scores decreased."
             echo "::set-output name=is_dropped::true"
           else
